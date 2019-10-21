@@ -55,13 +55,9 @@
               {% include "toolkit/secondary-action-link.html" %}
             {% endwith %}
 
-            {%
-              with
-              type = "save",
-              label = "Log in"
-            %}
-              {% include "toolkit/button.html" %}
-            {% endwith %}
+            {{ govukButton({
+              "text": "Log in"
+            }) }}
 
             {%
               with

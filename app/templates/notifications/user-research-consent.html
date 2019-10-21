@@ -68,16 +68,15 @@
         {% include "toolkit/forms/selection-buttons.html" %}
       {% endwith %}
 
-      {% with 
-        label="Save changes", 
-        type="save", 
-        name="save_changes",
-        analytics = "tracking",
-        analytics_category = "user_research",
-        analytics_action = "subscribe" if not form.user_research_opt_in.data else "unsubscribe"
-      %}
-        {% include "toolkit/button.html" %}
-      {% endwith %}
+      {{ govukButton({
+        "text": "Save changes",
+        "name": "save_changes",
+        "attributes": {
+          "data-analytics": "tracking",
+          "data-analytics-category": "user_research",
+          "data-analytics-action": "subscribe" if not form.user_research_opt_in.data else "unsubscribe",
+        },
+      }) }}
     </form>
 
     {%
