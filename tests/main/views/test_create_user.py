@@ -1,6 +1,7 @@
 import urllib
 
 import pytest
+from lxml import html
 import mock
 from freezegun import freeze_time
 
@@ -78,21 +79,47 @@ class TestCreateUser(BaseApplicationTest):
                 '/user/create/{}'.format(token)
             )
 
-    def test_should_render_correct_error_page_if_token_expired(self):
-        messages = [
-            'Check you’ve entered the correct link or <a href="/buyers/create">send a new one</a>',
-            'Check you’ve entered the correct link or ask the person who invited you to send a new invitation.'
-        ]
-        for role, message in zip(self.user_roles, messages):
-            with freeze_time('2016-09-28 16:00:00'):
-                token = self._generate_token(role=role)
-            res = self.client.get(
-                '/user/create/{}'.format(token)
-            )
+    @pytest.mark.parametrize("user_role,expected_msg,expected_msg_link_text", (
+        (
+            'buyer',
+            'Check you’ve entered the correct link or send a new one',
+            'send a new one',
+        ),
+        (
+            'supplier',
+            'Check you’ve entered the correct link or ask the person who invited you to send a new invitation.',
+            None,
+        ),
+    ))
+    def test_should_render_correct_error_page_if_token_expired(
+        self,
+        user_role,
+        expected_msg,
+        expected_msg_link_text,
+    ):
+        with freeze_time('2016-09-28 16:00:00'):
+            token = self._generate_token(role=user_role)
+        res = self.client.get(
+            '/user/create/{}'.format(token)
+        )
 
-            assert res.status_code == 400
-            assert 'The link you used to create an account may have expired.' in res.get_data(as_text=True)
-            assert message in res.get_data(as_text=True)
+        assert res.status_code == 400
+        doc = html.fromstring(res.get_data())
+        p = doc.xpath(
+            "//p[contains(normalize-space(string()),$t)][contains(normalize-space(string()),$m)]",
+            t="The link you used to create an account may have expired.",
+            m=expected_msg,
+        )
+        assert p
+
+        if expected_msg_link_text is None:
+            assert not p[0].xpath(".//a[@href=$u]", u="/buyers/create")
+        else:
+            assert p[0].xpath(
+                ".//a[@href=$u][normalize-space(string())=$t]",
+                u="/buyers/create",
+                t="send a new one",
+            )
 
     def test_should_render_create_user_page_if_user_does_not_exist(self):
         self.data_api_client.get_user.return_value = None
@@ -253,14 +280,18 @@ class TestCreateUser(BaseApplicationTest):
         )
 
         assert res.status_code == 400
-
-        messages = [
-            'The link you used to create an account may have expired.',
-            'Check you’ve entered the correct link or <a href="/buyers/create">send a new one</a>'
-        ]
-
-        for message in messages:
-            assert message in res.get_data(as_text=True)
+        doc = html.fromstring(res.get_data())
+        p = doc.xpath(
+            "//p[contains(normalize-space(string()),$t)][contains(normalize-space(string()),$m)]",
+            t="The link you used to create an account may have expired.",
+            m="Check you’ve entered the correct link or send a new one",
+        )
+        assert p
+        assert p[0].xpath(
+            ".//a[@href=$u][normalize-space(string())=$t]",
+            u="/buyers/create",
+            t="send a new one",
+        )
 
     def test_should_render_correct_error_page_for_old_style_expired_supplier_token(self):
         with freeze_time('2016-09-28 16:00:00'):

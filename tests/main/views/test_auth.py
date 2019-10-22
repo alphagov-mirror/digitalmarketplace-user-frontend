@@ -239,13 +239,11 @@ class TestLoginFormsNotAutofillable(BaseApplicationTest):
 
         document = html.fromstring(response.get_data(as_text=True))
 
-        page_title = document.xpath(
-            '//main[@id="content"]//h1/text()')[0].strip()
+        page_title = document.xpath('normalize-space(string(//main[@id="content"]//h1))')
         assert expected_title == page_title
 
         if expected_lede:
-            page_lede = document.xpath(
-                '//main[@id="content"]//p[@class="lede"]/text()')[0].strip()
+            page_lede = document.xpath('normalize-space(string(//main[@id="content"]//p[@class="govuk-body-l"]))')
             assert expected_lede == page_lede
 
         forms = document.xpath('//main[@id="content"]//form')
