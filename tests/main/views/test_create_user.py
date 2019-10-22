@@ -56,14 +56,13 @@ class TestCreateUser(BaseApplicationTest):
         assert res.location == 'http://localhost/user/create'
 
     def test_should_show_correct_error_page_for_invalid_token(self):
-        for role in self.user_roles:
-            token = "1234"
-            res = self.client.get(
-                '/user/create/{}'.format(token)
-            )
+        token = "1234"
+        res = self.client.get(
+            '/user/create/{}'.format(token)
+        )
 
-            assert res.status_code == 400
-            assert "The link you used to create an account is not valid." in res.get_data(as_text=True)
+        assert res.status_code == 400
+        assert "The link you used to create an account is not valid." in res.get_data(as_text=True)
 
     def test_invalid_token_contents_500s(self):
         token = generate_token(
@@ -74,11 +73,10 @@ class TestCreateUser(BaseApplicationTest):
             self.app.config['INVITE_EMAIL_SALT']
         )
 
-        for role in self.user_roles:
-            with pytest.raises(KeyError):
-                self.client.get(
-                    '/user/create/{}'.format(token)
-                )
+        with pytest.raises(KeyError):
+            self.client.get(
+                '/user/create/{}'.format(token)
+            )
 
     def test_should_render_correct_error_page_if_token_expired(self):
         messages = [
@@ -243,54 +241,52 @@ class TestCreateUser(BaseApplicationTest):
         assert u"Your account is registered with ‘Supplier Name’" in res.get_data(as_text=True)
 
     def test_should_render_correct_error_page_for_old_style_expired_buyer_token(self):
-        for role in self.user_roles:
-            with freeze_time('2016-09-28 16:00:00'):
-                token = generate_token(
-                    {"email_address": 'test@example.com'},
-                    self.app.config['SHARED_EMAIL_KEY'],
-                    self.app.config['INVITE_EMAIL_SALT']
-                )
-
-            res = self.client.get(
-                '/user/create/{}'.format(token)
+        with freeze_time('2016-09-28 16:00:00'):
+            token = generate_token(
+                {"email_address": 'test@example.com'},
+                self.app.config['SHARED_EMAIL_KEY'],
+                self.app.config['INVITE_EMAIL_SALT']
             )
 
-            assert res.status_code == 400
+        res = self.client.get(
+            '/user/create/{}'.format(token)
+        )
 
-            messages = [
-                'The link you used to create an account may have expired.',
-                'Check you’ve entered the correct link or <a href="/buyers/create">send a new one</a>'
-            ]
+        assert res.status_code == 400
 
-            for message in messages:
-                assert message in res.get_data(as_text=True)
+        messages = [
+            'The link you used to create an account may have expired.',
+            'Check you’ve entered the correct link or <a href="/buyers/create">send a new one</a>'
+        ]
+
+        for message in messages:
+            assert message in res.get_data(as_text=True)
 
     def test_should_render_correct_error_page_for_old_style_expired_supplier_token(self):
-        for role in self.user_roles:
-            with freeze_time('2016-09-28 16:00:00'):
-                token = generate_token(
-                    {
-                        "supplier_id": '12345',
-                        "supplier_name": 'Supplier Name',
-                        "email_address": 'test@example.com'
-                    },
-                    self.app.config['SHARED_EMAIL_KEY'],
-                    self.app.config['INVITE_EMAIL_SALT']
-                )
-
-            res = self.client.get(
-                '/user/create/{}'.format(token)
+        with freeze_time('2016-09-28 16:00:00'):
+            token = generate_token(
+                {
+                    "supplier_id": '12345',
+                    "supplier_name": 'Supplier Name',
+                    "email_address": 'test@example.com'
+                },
+                self.app.config['SHARED_EMAIL_KEY'],
+                self.app.config['INVITE_EMAIL_SALT']
             )
 
-            assert res.status_code == 400
+        res = self.client.get(
+            '/user/create/{}'.format(token)
+        )
 
-            messages = [
-                'The link you used to create an account may have expired.',
-                'Check you’ve entered the correct link or ask the person who invited you to send a new invitation.'
-            ]
+        assert res.status_code == 400
 
-            for message in messages:
-                assert message in res.get_data(as_text=True)
+        messages = [
+            'The link you used to create an account may have expired.',
+            'Check you’ve entered the correct link or ask the person who invited you to send a new invitation.'
+        ]
+
+        for message in messages:
+            assert message in res.get_data(as_text=True)
 
 
 class TestSubmitCreateUser(BaseApplicationTest):
@@ -335,19 +331,18 @@ class TestSubmitCreateUser(BaseApplicationTest):
         assert res.status_code == 404
 
     def test_should_be_an_error_if_invalid_token(self):
-        for role in self.user_roles:
-            res = self.client.post(
-                '/user/create/invalidtoken'.format(role),
-                data={
-                    'password': '123456789',
-                    'name': 'name',
-                    'email_address': 'valid@test.com'
-                }
-            )
+        res = self.client.post(
+            '/user/create/invalidtoken',
+            data={
+                'password': '123456789',
+                'name': 'name',
+                'email_address': 'valid@test.com'
+            }
+        )
 
-            assert res.status_code == 400
-            assert 'Bad request - Digital Marketplace' in res.get_data(as_text=True)
-            assert "The link you used to create an account is not valid." in res.get_data(as_text=True)
+        assert res.status_code == 400
+        assert 'Bad request - Digital Marketplace' in res.get_data(as_text=True)
+        assert "The link you used to create an account is not valid." in res.get_data(as_text=True)
 
     def test_should_be_a_bad_request_if_token_expired(self):
         for role in self.user_roles:
