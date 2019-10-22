@@ -33,19 +33,19 @@
     </h1>
 
     {% if not form.user_research_opt_in.data %}
-      <p class="text">
+      <p class="govuk-body">
         We need to talk to people who use the Digital Marketplace to help us make our service better - user research is how we do this.
       </p>
-      <div class="text">
+      <p class="govuk-body">
         When you join our user research mailing list you:
-        <ul class="list list-bullet">
-          <li>will only be contacted to be invited to take part in user research</li>
-          <li>don’t have to agree to take part in research</li>
-          <li>can unsubscribe at any time</li>
-        </ul>
       </div>
+      <ul class="list list-bullet">
+        <li>will only be contacted to be invited to take part in user research</li>
+        <li>don’t have to agree to take part in research</li>
+        <li>can unsubscribe at any time</li>
+      </ul>
     {% else %}
-      <p class="text">
+      <p class="govuk-body">
          You can join again at any time.
       </p>
     {% endif %}
