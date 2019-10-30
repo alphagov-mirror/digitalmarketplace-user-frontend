@@ -6,61 +6,58 @@
 
 {% block main_content %}
 
-{% with lede = "There was a problem with the details you gave for:" %}
+  {% with lede = "There was a problem with the details you gave for:" %}
     {% include 'toolkit/forms/validation.html' %}
-{% endwith %}
+  {% endwith %}
 
-{% set headings = {
-    'buyer': 'Create a new Digital Marketplace account',
-    'supplier': "Add your name and create a password"
-   }
-%}
+  {% set headings = {
+      'buyer': 'Create a new Digital Marketplace account',
+      'supplier': "Add your name and create a password"
+    }
+  %}
 
-<span class="govuk-caption-l">{{ email_address }}</span>
-<h1 class="govuk-heading-l">{{ headings[role] }}</h1>
+  <span class="govuk-caption-l">{{ email_address }}</span>
+  <h1 class="govuk-heading-l">{{ headings[role] }}</h1>
 
+  <form autocomplete="off" action="{{ url_for('.submit_create_user', encoded_token=token) }}" method="POST" id="createUserForm">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {{ form.hidden_tag() }}
 
-    <form autocomplete="off" action="{{ url_for('.submit_create_user', encoded_token=token) }}" method="POST" id="createUserForm">
+        {% with question = form.name.label,
+                name = "name",
+                error = errors.get('name', {}).get('message'),
+                value = form.name.data,
+                autocomplete = "off"
+        %}
+          {% include "toolkit/forms/textbox.html" %}
+        {% endwith %}
 
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                {{ form.hidden_tag() }}
-  
-                {% with question = form.name.label,
-                        name = "name",
-                        error = errors.get('name', {}).get('message'),
-                        value = form.name.data,
-                        autocomplete = "off"
-                %}
-                  {% include "toolkit/forms/textbox.html" %}
-                {% endwith %}
+        {% if role == 'buyer' %}
+          {% with question = form.phone_number.label,
+                  name = "phone_number",
+                  error = errors.get('phone_number', {}).get('message'),
+                  hint = form.phone_number.hint,
+                  value = form.phone_number.data,
+                  autocomplete = "off"
+          %}
+            {% include "toolkit/forms/textbox.html" %}
+          {% endwith %}
+        {% endif %}
 
-                {% if role == 'buyer' %}
-                  {% with question = form.phone_number.label,
-                          name = "phone_number",
-                          error = errors.get('phone_number', {}).get('message'),
-                          hint = form.phone_number.hint,
-                          value = form.phone_number.data,
-                          autocomplete = "off"
-                  %}
-                    {% include "toolkit/forms/textbox.html" %}
-                  {% endwith %}
-                {% endif %}
-  
-                {% with question = form.password.label,
-                        name = "password",
-                        error = errors.get('password', {}).get('message'),
-                        value = form.password.data,
-                        type = "password"
-                %}
-                  {% include "toolkit/forms/textbox.html" %}
-                {% endwith %}
+        {% with question = form.password.label,
+                name = "password",
+                error = errors.get('password', {}).get('message'),
+                value = form.password.data,
+                type = "password"
+        %}
+          {% include "toolkit/forms/textbox.html" %}
+        {% endwith %}
 
-                {{ govukButton({
-                  "text": "Create account"
-                }) }}
-            </div>
-        </div>
-    </form>
-
+        {{ govukButton({
+          "text": "Create account"
+        }) }}
+      </div>
+    </div>
+  </form>
 {% endblock %}

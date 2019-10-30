@@ -20,75 +20,75 @@
 
 {% block main_content %}
 
-<div class="govuk-grid-row notification-user-research">
-  {% include 'toolkit/forms/validation.html' %}
+  <div class="govuk-grid-row notification-user-research">
+    {% include 'toolkit/forms/validation.html' %}
 
-  <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">
-    {% if form.user_research_opt_in.data %}
-      Unsubscribe from the user research mailing list
-    {% else %}
-      Join the user research mailing list
-    {% endif %}
-    </h1>
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">
+      {% if form.user_research_opt_in.data %}
+        Unsubscribe from the user research mailing list
+      {% else %}
+        Join the user research mailing list
+      {% endif %}
+      </h1>
 
-    {% if not form.user_research_opt_in.data %}
-      <p class="govuk-body">
-        We need to talk to people who use the Digital Marketplace to help us make our service better - user research is how we do this.
-      </p>
-      <p class="govuk-body">
-        When you join our user research mailing list you:
-      </p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>will only be contacted to be invited to take part in user research</li>
-        <li>don’t have to agree to take part in research</li>
-        <li>can unsubscribe at any time</li>
-      </ul>
-    {% else %}
-      <p class="govuk-body">
-         You can join again at any time.
-      </p>
-    {% endif %}
+      {% if not form.user_research_opt_in.data %}
+        <p class="govuk-body">
+          We need to talk to people who use the Digital Marketplace to help us make our service better - user research is how we do this.
+        </p>
+        <p class="govuk-body">
+          When you join our user research mailing list you:
+        </p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>will only be contacted to be invited to take part in user research</li>
+          <li>don’t have to agree to take part in research</li>
+          <li>can unsubscribe at any time</li>
+        </ul>
+      {% else %}
+        <p class="govuk-body">
+          You can join again at any time.
+        </p>
+      {% endif %}
 
-    <form action="{{ url_for('main.user_research_consent') }}" method="POST">
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+      <form action="{{ url_for('main.user_research_consent') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        {%
+          with
+          type = "checkbox",
+          name = "user_research_opt_in",
+          value = [form.user_research_opt_in.data or None],
+          options = [
+            {
+              "label": form.user_research_opt_in.label.text,
+              "value": form.user_research_opt_in.data,
+            }
+          ],
+          error = errors.get('user_research_opt_in', {}).get('message', None)
+        %}
+          {% include "toolkit/forms/selection-buttons.html" %}
+        {% endwith %}
+
+        {{ govukButton({
+          "text": "Save changes",
+          "name": "save_changes",
+          "attributes": {
+            "data-analytics": "tracking",
+            "data-analytics-category": "user_research",
+            "data-analytics-action": "subscribe" if not form.user_research_opt_in.data else "unsubscribe",
+          },
+        }) }}
+      </form>
+
       {%
         with
-        type = "checkbox",
-        name = "user_research_opt_in",
-        value = [form.user_research_opt_in.data or None],
-        options = [
-          {
-            "label": form.user_research_opt_in.label.text,
-            "value": form.user_research_opt_in.data,
-          }
-        ],
-        error = errors.get('user_research_opt_in', {}).get('message', None)
+        url = dashboard_url,
+        text = "Return to your account"
       %}
-        {% include "toolkit/forms/selection-buttons.html" %}
+        {% include "toolkit/secondary-action-link.html" %}
       {% endwith %}
+    </div>
 
-      {{ govukButton({
-        "text": "Save changes",
-        "name": "save_changes",
-        "attributes": {
-          "data-analytics": "tracking",
-          "data-analytics-category": "user_research",
-          "data-analytics-action": "subscribe" if not form.user_research_opt_in.data else "unsubscribe",
-        },
-      }) }}
-    </form>
-
-    {%
-      with
-      url = dashboard_url,
-      text = "Return to your account"
-    %}
-      {% include "toolkit/secondary-action-link.html" %}
-    {% endwith %}
   </div>
-
-</div>
 
 
 {% endblock %}

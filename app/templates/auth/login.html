@@ -16,59 +16,57 @@
 
 {% block main_content %}
 
-{% with lede = "There was a problem with the details you gave for:" %}
+  {% with lede = "There was a problem with the details you gave for:" %}
     {% include 'toolkit/forms/validation.html' %}
-{% endwith %}
+  {% endwith %}
 
-<h1 class="govuk-heading-xl">Log in to the Digital Marketplace</h1>
+  <h1 class="govuk-heading-xl">Log in to the Digital Marketplace</h1>
 
-<form autocomplete="off" action="{{ url_for('.process_login', next=next) }}" method="POST">
+  <form autocomplete="off" action="{{ url_for('.process_login', next=next) }}" method="POST">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-grid-column-two-thirds">
+        {{ form.hidden_tag() }}
 
-            {{ form.hidden_tag() }}
-  
-            {% with question = form.email_address.label,
-                    name = "email_address",
-                    error = errors.get('email_address', {}).get('message'),
-                    hint = form.email_address.hint,
-                    value = form.email_address.data,
-                    autocomplete = "off"
-            %}
-              {% include "toolkit/forms/textbox.html" %}
-            {% endwith %}
-  
-            {% with question = form.password.label,
-                    name = "password",
-                    error = errors.get('password', {}).get('message'),
-                    value = form.password.data,
-                    type = "password"
-            %}
-              {% include "toolkit/forms/textbox.html" %}
-            {% endwith %}
+        {% with question = form.email_address.label,
+                name = "email_address",
+                error = errors.get('email_address', {}).get('message'),
+                hint = form.email_address.hint,
+                value = form.email_address.data,
+                autocomplete = "off"
+        %}
+          {% include "toolkit/forms/textbox.html" %}
+        {% endwith %}
 
-            {%
-              with
-              url = url_for('.request_password_reset'),
-              text = "Forgotten password"
-            %}
-              {% include "toolkit/secondary-action-link.html" %}
-            {% endwith %}
+        {% with question = form.password.label,
+                name = "password",
+                error = errors.get('password', {}).get('message'),
+                value = form.password.data,
+                type = "password"
+        %}
+          {% include "toolkit/forms/textbox.html" %}
+        {% endwith %}
 
-            {{ govukButton({
-              "text": "Log in"
-            }) }}
+        {%
+          with
+          url = url_for('.request_password_reset'),
+          text = "Forgotten password"
+        %}
+          {% include "toolkit/secondary-action-link.html" %}
+        {% endwith %}
 
-            {%
-              with
-              url = url_for('external.create_buyer_account'),
-              text = "Create a buyer account",
-              bigger = true
-            %}
-              {% include "toolkit/secondary-action-link.html" %}
-            {% endwith %}
+        {{ govukButton({
+          "text": "Log in"
+        }) }}
 
-        </div>
+        {%
+          with
+          url = url_for('external.create_buyer_account'),
+          text = "Create a buyer account",
+          bigger = true
+        %}
+          {% include "toolkit/secondary-action-link.html" %}
+        {% endwith %}
+      </div>
     </div>
-</form>
+  </form>
 {% endblock %}
