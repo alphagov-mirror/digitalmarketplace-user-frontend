@@ -19,35 +19,51 @@
       <div class="govuk-grid-column-two-thirds">
         {{ form.hidden_tag() }}
 
-        {% with question = form.name.label,
-                name = "name",
-                error = errors.get('name', {}).get('message'),
-                value = form.name.data,
-                autocomplete = "off"
-        %}
-          {% include "toolkit/forms/textbox.html" %}
-        {% endwith %}
+        {{ govukInput({
+          "label": {
+            "text": form.name.label.text,
+          },
+          "errorMessage": errors.get('name', {}).get('errorMessage'),
+          "id": "input-name",
+          "name": "name",
+          "value": form.name.data,
+          "attributes": {
+            "autocomplete": "off",
+          },
+        }) }}
+
 
         {% if role == 'buyer' %}
-          {% with question = form.phone_number.label,
-                  name = "phone_number",
-                  error = errors.get('phone_number', {}).get('message'),
-                  hint = form.phone_number.hint,
-                  value = form.phone_number.data,
-                  autocomplete = "off"
-          %}
-            {% include "toolkit/forms/textbox.html" %}
-          {% endwith %}
+          {{ govukInput({
+            "label": {
+              "text": form.phone_number.label.text,
+            },
+            "hint": {
+              "text": form.phone_number.hint,
+            },
+            "errorMessage": errors.get('phone_number', {}).get('errorMessage'),
+            "id": "input-phone_number",
+            "name": "phone_number",
+            "value": form.phone_number.data,
+            "attributes": {
+              "autocomplete": "off",
+            },
+          }) }}
         {% endif %}
 
-        {% with question = form.password.label,
-                name = "password",
-                error = errors.get('password', {}).get('message'),
-                value = form.password.data,
-                type = "password"
-        %}
-          {% include "toolkit/forms/textbox.html" %}
-        {% endwith %}
+        {{ govukInput({
+          "label": {
+            "text": form.password.label.text,
+          },
+          "errorMessage": errors.get('password', {}).get('errorMessage'),
+          "id": "input-password",
+          "type": "password",
+          "name": "password",
+          "value": form.password.data,
+          "attributes": {
+            "autocomplete": "off",
+          },
+        }) }}
 
         {{ govukButton({
           "text": "Create account"
