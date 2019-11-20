@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import current_app, flash, redirect, url_for, Markup
+from flask import current_app, flash, redirect, url_for, Markup, abort
 from flask_login import current_user, login_required
 
 from dmutils.email import DMNotifyClient, generate_token, decode_password_reset_token, EmailError
@@ -88,10 +88,7 @@ def send_reset_password_email():
                         "login.reset-email.notify-error",
                         user.email_address,
                     )
-                    return render_template(
-                        'toolkit/errors/500.html',
-                        error_message="Failed to send password reset.",
-                    ), 503
+                    abort(503, "Failed to send password reset email.")
 
                 current_app.logger.info(
                     "{code}: Sent password reset email for email_hash {email_hash}",
@@ -114,10 +111,7 @@ def send_reset_password_email():
                         "login.reset-email-inactive.notify-error",
                         user.email_address,
                     )
-                    return render_template(
-                        'toolkit/errors/500.html',
-                        error_message="Failed to send password reset.",
-                    ), 503
+                    abort(503, "Failed to send password reset email.")
 
                 current_app.logger.warning(
                     "{code}: Sent password (non-)reset email for inactive user email_hash {email_hash}",
@@ -143,10 +137,7 @@ def send_reset_password_email():
                     "login.reset-email-nonexistent.notify-error",
                     email_address,  # Hashed by the helper function
                 )
-                return render_template(
-                    'toolkit/errors/500.html',
-                    error_message="Failed to send password reset.",
-                ), 503
+                abort(503, "Failed to send password reset email.")
 
             current_app.logger.info(
                 "{code}: Sent password (non-)reset email for invalid user email_hash {email_hash}",
