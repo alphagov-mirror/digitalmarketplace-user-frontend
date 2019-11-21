@@ -276,12 +276,14 @@ class TestResetPassword(BaseApplicationTest):
         assert res.status_code == 200
         assert "Reset password for email@email.com" in res.get_data(as_text=True)
 
-        # Reset form should not display the 'Old password' field
         document = html.fromstring(res.get_data(as_text=True))
-        form_labels = document.xpath('//main//form//label/text()')
+
+        # Reset form should not display the 'Old password' field
+        assert not document.xpath("//main//form//label[normalize-space()='Old password']")
 
         for label in ['New password', 'Confirm new password']:
-            assert label in form_labels
+            assert document.xpath(f"//main//form//label[normalize-space()='{label}']")
+
         assert self.data_api_client.update_user_password.called is False
 
     def test_password_should_not_be_empty(self):
@@ -494,10 +496,8 @@ class TestChangePassword(BaseApplicationTest):
 
         self.assert_breadcrumbs(response, [("Your account", redirect_url), ("Change your password", None)])
 
-        form_labels = document.xpath('//form//label/text()')
-
         for label in ['Old password', 'New password', 'Confirm new password']:
-            assert label in form_labels
+            assert document.xpath(f"//form//label[normalize-space()='{label}']")
 
         assert len(document.xpath('//a[text()="Return to your account"]')) == 1
         assert self.data_api_client.update_user_password.called is False
