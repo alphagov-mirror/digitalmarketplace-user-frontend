@@ -2,6 +2,7 @@ from flask import abort, current_app, Markup
 from flask_login import login_user
 
 from dmapiclient import HTTPError
+from dmutils.errors import render_error_page
 from dmutils.email import decode_invitation_token
 from dmutils.flask import timed_render_template as render_template
 from dmutils.forms.helpers import get_errors_from_wtform
@@ -30,10 +31,11 @@ def create_user(encoded_token):
             "createuser.token_invalid: {encoded_token}",
             extra={'encoded_token': encoded_token}
         )
-        return render_template(
-            "toolkit/errors/400.html",
+        # Replace this with a proper dedicated template.
+        return render_error_page(
+            status_code=400,
             error_message=INVALID_TOKEN_MESSAGE.format(support_email=current_app.config['SUPPORT_EMAIL_ADDRESS']),
-        ), 400
+        )
 
     role = token["role"]
 
@@ -83,10 +85,10 @@ def submit_create_user(encoded_token):
             "createuser.token_invalid: {encoded_token}",
             extra={'encoded_token': encoded_token}
         )
-        return render_template(
-            "toolkit/errors/400.html",
+        return render_error_page(
+            status_code=400,
             error_message=INVALID_TOKEN_MESSAGE.format(support_email=current_app.config['SUPPORT_EMAIL_ADDRESS']),
-        ), 400
+        )
 
     role = token["role"]
 
