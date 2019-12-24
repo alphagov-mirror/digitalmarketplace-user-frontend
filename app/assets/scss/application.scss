@@ -1,10 +1,3 @@
-// GOVUK Front-end toolkit variables, mixins and functions
-@import "_grid_layout.scss";    // Grid variables
-@import "_typography.scss";     // Core bold and heading mixins
-@import "_url-helpers.scss";
-
-// Path to assets for use with file-url()
-$path: "/user/static/images/";
 
 // Digital Marketplace Front-end toolkit shared CSS placeholders used by other DM toolkit styles
 @import "toolkit/shared_placeholders/_temporary-messages.scss";
@@ -12,43 +5,28 @@ $path: "/user/static/images/";
 @import "toolkit/shared_placeholders/_dm-typography.scss";
 @import "toolkit/shared_placeholders/_mixins.scss";
 
-// Digital Marketplace Front-end toolkit shared styles between multiple apps
-@import "toolkit/shared_scss/_reset.scss";
-@import "toolkit/shared_scss/_lists.scss";
 
 // Digital Marketplace Front-end toolkit styles (only import the files you need)
-@import "toolkit/_breadcrumb.scss";
-@import "toolkit/_footer.scss";
-@import "toolkit/_grids.scss";
 @import "toolkit/_notification-banners.scss";
-@import "toolkit/_phase-banner.scss";
 @import "toolkit/_proposition-header.scss";
 @import "toolkit/forms/_hint.scss";
 @import "toolkit/forms/_questions.scss";
 @import "toolkit/forms/_textboxes.scss";
 @import "toolkit/forms/_selection-buttons.scss";
-@import "toolkit/_user-research-consent-banner.scss";
+
 
 // GOV.UK Design System (compatible with old toolkit/elements)
 $govuk-assets-path: '/user/static/';
 $govuk-images-path: '/user/static/images/govuk-frontend/';
 $govuk-fonts-path: '/user/static/fonts/';
 $govuk-compatibility-govukfrontendtoolkit: true;
-$govuk-compatibility-govuktemplate: true;
 $govuk-compatibility-govukelements: true;
 @import "node_modules/digitalmarketplace-govuk-frontend/govuk-frontend/all";
 
-// App specific styles
-@import "_text.scss";
+// Digital Marketplace Components
+@import "node_modules/digitalmarketplace-govuk-frontend/digitalmarketplace/all";
 
 // Overrides
 @import "overrides/_notification-banner";
-@import "overrides/_page_headings";
 @import "overrides/_govuk-label";
 
-// Misc styles
-// TODO: Move misc styling into their own partial files or the Digital Marketplace FE Toolkit
-#wrapper {
-  @extend %site-width-container;
-  padding-bottom: $gutter * 2;
-}
