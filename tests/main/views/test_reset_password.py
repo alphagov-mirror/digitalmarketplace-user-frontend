@@ -518,7 +518,7 @@ class TestChangePassword(BaseApplicationTest):
         assert response.status_code == 200
 
         doc = html.fromstring(response.get_data(as_text=True))
-        form = doc.cssselect("#content form")[0]
+        form = doc.cssselect("#main-content form")[0]
 
         assert form.get("autocomplete") != "off"
 
