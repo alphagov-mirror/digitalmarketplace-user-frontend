@@ -1,0 +1,133 @@
+{% extends "_base_page.html" %}
+
+{% block pageTitle %}
+  Change your cookie settings on Digital Marketplace
+{% endblock %}
+
+{% block breadcrumb %}
+  {{ govukBreadcrumbs({"items": [
+    {
+      "text": "Digital Marketplace",
+      "href": url_for('external.index'),
+    },
+    {
+      "text": "Change your cookie settings",
+    },
+  ]}) }}
+{% endblock %}
+
+{% block mainContent %}
+
+  {{ dmAlert({
+    "type": "error",
+    "classes": "dm-cookie-settings__error",
+    "titleText": "There was a problem saving your settings",
+    "text": "Please select 'Yes' or 'No'.",
+    "attributes": [("id", "dm-cookie-settings-error")]
+  }) }}
+
+  {{ dmAlert({
+    "type": "success",
+    "classes": "dm-cookie-settings__confirmation",
+    "titleText": "Your cookie settings were saved",
+    "html": '<p class="govuk-body">You can change your preferences at any time on this page.</p><p class="govuk-body"><a href="/" class="govuk-link dm-cookie-settings__prev-page">Go back to the page you were looking at.</a></p>',
+    "attributes": [("id", "dm-cookie-settings-confirmation")]
+  }) }}
+
+  {{ dmAlert({
+    "type": "notice",
+    "classes": "dm-cookie-settings__warning",
+    "titleText": "Your cookie settings have not yet been saved",
+    "text": 'Digital Marketplace sets cookies when you visit our website. You can choose to change these settings to your own preferences. You need to save this page with your new choices.',
+    "attributes": [("id", "dm-cookie-settings-warning")]
+  }) }}
+
+  <h1 class="govuk-heading-xl">Change your cookie settings</h1>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <p class="govuk-body">
+        Cookies are files saved on your phone, tablet or computer when you visit a website.
+      </p>
+
+      <p class="govuk-body">
+        We use cookies to make the Digital Marketplace work and collect information about how you use our service.
+      </p>
+
+      <h2 class="govuk-heading-l">Cookie settings</h2>
+      <div class="dm-cookie-settings__no-js">
+        <div class="govuk-govspeak">
+          <p>We use Javascript to set most of our cookies.
+            Unfortunately Javascript is not running on your browser, so you cannot change your settings. You can try:</p>
+          <ul class="govuk-list">
+            <li>reloading the page</li>
+            <li>turning on Javascript in your browser</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dm-cookie-settings__form-wrapper">
+        <p class="govuk-body">We use 2 types of cookies.</p>
+
+        <h3 class="govuk-heading-m">Essential cookies</h3>
+        <p class="govuk-body">These essential cookies do things like to:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>store sessions on your computer to help keep your information secure while you use the service</li>
+          <li>test whether your browser is able to accept session cookies, allowing us to show a useful error message if you try to log in without cookies enabled</li>
+          <li>remember the notifications you&rsquo;ve seen so we do not show them to you again</li>
+        </ul>
+
+
+          <h3 class="govuk-heading-m">Cookies that measure website use (optional)</h3>
+
+          <p class="govuk-body">
+            With your permission, we use Google Analytics to collect data about how you use the Digital Marketplace.
+            This information helps us to improve our service.
+          </p>
+          <p class="govuk-body">
+            Google is not allowed to use or share our analytics data with anyone.
+          </p>
+          <p class="govuk-body">
+            Google Analytics stores anonymised information about:
+          </p>
+
+          <ul class="govuk-list govuk-list--bullet">
+            <li>how you got to Digital Marketplace</li>
+            <li>the pages you visit on Digital Marketplace and government digital services, and how long you spend on each page</li>
+            <li>what you click on while you&rsquo;re using the service</li>
+          </ul>
+
+        <form id="dm-cookie-settings" data-module="dm-cookie-settings">
+          {{ govukRadios({
+            "name": "cookies-analytics",
+            "idPrefix": "cookie-settings",
+            "classes": "govuk-radios--inline",
+            "fieldset": {
+              "legend": {
+                "text": "Do you want to accept analytics cookies?",
+                "isPageHeading": false,
+                "classes": "govuk-fieldset__legend--m"
+              }
+            },
+            "items": [
+              {
+                "text": "Yes",
+                "value": "On"
+              },
+              {
+                "text": "No",
+                "value": "Off"
+              }
+            ]
+          }) }}
+
+          {{ govukButton({
+            "text": "Save cookie settings",
+          }) }}
+        </form>
+        <p class="govuk-body"><a class="govuk-link" href="{{ url_for('external.cookies') }}">Find out more about cookies on Digital Marketplace</a></p>
+      </div>
+  </div>
+</div>
+{% endblock %}

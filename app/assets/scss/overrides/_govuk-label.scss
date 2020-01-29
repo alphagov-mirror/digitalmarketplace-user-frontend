@@ -13,3 +13,8 @@
 
   margin-bottom: govuk-spacing(2);
 }
+
+// Cookie settings form labels use the govuk-frontend govukRadios component, so we can keep the original styling
+form#dm-cookie-settings .govuk-label {
+  @include govuk-font($size: 19);
+}
