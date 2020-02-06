@@ -11,6 +11,7 @@
 
 
 {# Import DM Components #}
+{% from "digitalmarketplace/components/cookie-banner/macro.njk" import dmCookieBanner %}
 {% from "digitalmarketplace/components/header/macro.njk" import dmHeader %}
 {% from "digitalmarketplace/components/footer/macro.njk" import dmFooter %}
 {% from "digitalmarketplace/components/alert/macro.njk" import dmAlert %}
@@ -25,6 +26,12 @@
 {% endblock %}
 
 {% block header %}
+  {% block cookieBanner %}
+    {{ dmCookieBanner({
+      'cookieSettingsUrl': url_for('main.cookie_settings'),
+      'cookieInfoUrl': url_for('external.cookies'),
+    }) }}
+  {% endblock %}
   {{ dmHeader({
     "role": current_user.role | default(None)
   }) }}

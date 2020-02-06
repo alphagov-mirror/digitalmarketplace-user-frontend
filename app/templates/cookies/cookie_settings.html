@@ -16,6 +16,9 @@
   ]}) }}
 {% endblock %}
 
+{# Hide the Cookie banner on this page to avoid multiple forms for the same action #}
+{% block cookieBanner %}{% endblock %}
+
 {% block mainContent %}
 
   {{ dmAlert({
