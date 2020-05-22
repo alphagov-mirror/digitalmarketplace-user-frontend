@@ -17,10 +17,12 @@ class TestCookieSettings(BaseApplicationTest):
         # Alert banners - visibility determined by cookies/JS
         alerts = document.xpath('//div[@data-module="dm-alert"]//h2')
         assert [alert.text_content().strip() for alert in alerts] == [
-            "There was a problem saving your settings",
             "Your cookie settings were saved",
             "Your cookie settings have not yet been saved"
         ]
+
+        assert len(document.xpath('//*[@id="error-summary-title"][contains(text(),'
+                                  '"There was a problem saving your settings")]')) == 1
 
         # 'Go back' link should default to the home page
         assert document.xpath("//a[@class='govuk-link dm-cookie-settings__prev-page']")[0].get('href').strip() == '/'

@@ -21,16 +21,18 @@
 
 {% block mainContent %}
 
-  {{ dmAlert({
-    "type": "error",
-    "classes": "dm-cookie-settings__error",
+  {{ govukErrorSummary({
     "titleText": "There was a problem saving your settings",
-    "html": '<ul class="govuk-list govuk-error-summary__list">
-      <li>
-        <a href="#dm-cookie-settings">Please select \'Yes\' or \'No\'.</a>
-      </li>
-    </ul>',
-    "attributes": [("id", "dm-cookie-settings-error")]
+    "classes": "dm-cookie-settings__error",
+     "attributes": {
+      "id": "dm-cookie-settings-error"
+    },
+    "errorList": [
+      {
+        "text": "Please select 'Yes' or 'No'",
+        "href": "#dm-cookie-settings"
+      }
+    ]
   }) }}
 
   {{ dmAlert({
