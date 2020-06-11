@@ -71,7 +71,7 @@ class NotInPasswordBlacklist:
 
 class LoginForm(FlaskForm):
     email_address = DMStripWhitespaceStringField(
-        'Email address', id="input_email_address",
+        'Email address', id="input-email_address",
         hint=EMAIL_LOGIN_HINT,
         validators=[
             DataRequired(message="You must provide an email address"),
@@ -80,7 +80,7 @@ class LoginForm(FlaskForm):
         ]
     )
     password = PasswordField(
-        'Password', id="input_password",
+        'Password', id="input-password",
         validators=[
             DataRequired(message="You must provide your password")
         ]
@@ -89,7 +89,7 @@ class LoginForm(FlaskForm):
 
 class EmailAddressForm(FlaskForm):
     email_address = DMStripWhitespaceStringField(
-        'Email address', id="input_email_address",
+        'Email address', id="input-email_address",
         hint=EMAIL_LOGIN_HINT,
         validators=[
             DataRequired(message="You must provide an email address"),
@@ -115,14 +115,14 @@ class MatchesCurrentPassword:
 
 class PasswordChangeForm(FlaskForm):
     old_password = PasswordField(
-        'Old password', id="input_old_password",
+        'Old password', id="input-old_password",
         validators=[
             DataRequired(message="You must enter your old password"),
             MatchesCurrentPassword(message="Make sure you’ve entered the right password."),
         ]
     )
     password = PasswordField(
-        'New password', id="input_password",
+        'New password', id="input-password",
         validators=[
             DataRequired(message="You must enter a new password"),
             Length(
@@ -134,7 +134,7 @@ class PasswordChangeForm(FlaskForm):
         ]
     )
     confirm_password = PasswordField(
-        'Confirm new password', id="input_confirm_password",
+        'Confirm new password', id="input-confirm_password",
         validators=[
             DataRequired(message="Please confirm your new password"),
             EqualTo('password', message="The passwords you entered do not match")
@@ -156,7 +156,7 @@ class PasswordResetForm(PasswordChangeForm):
 
 class CreateUserForm(FlaskForm):
     name = DMStripWhitespaceStringField(
-        'Your name', id="input_name",
+        'Your name', id="input-name",
         validators=[
             DataRequired(message="Enter your name"),
             Length(min=1,
@@ -167,7 +167,7 @@ class CreateUserForm(FlaskForm):
     )
 
     phone_number = StringField(
-        'Phone number (optional)', id="input_phone_number",
+        'Phone number (optional)', id="input-phone_number",
         validators=[
             Regexp("^$|^\\+?([\\d\\s()-]){9,20}$",
                    message=("Enter a phone number, like 01632 960 001, +44 0808 157 0192 or (020)-7946-0001")
@@ -176,7 +176,7 @@ class CreateUserForm(FlaskForm):
     )
 
     password = PasswordField(
-        'Password', id="input_password",
+        'Password', id="input-password",
         validators=[
             DataRequired(message="Enter a password"),
             Length(
