@@ -69,7 +69,6 @@ def process_login():
                     "input_name": "password",
                 },
             })
-            flash(NO_ACCOUNT_MESSAGE, "error")
             return render_template(
                 "auth/login.html",
                 form=form,
