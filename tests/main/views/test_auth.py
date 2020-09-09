@@ -207,13 +207,21 @@ class TestLogin(BaseApplicationTest):
     def test_should_return_a_403_for_invalid_login(self):
         self.data_api_client.authenticate_user.return_value = None
 
-        res = self.client.post("/user/login", data={
+        response = self.client.post("/user/login", data={
             'email_address': 'valid@email.com',
             'password': '1234567890'
         })
         assert self.strip_all_whitespace(str(NO_ACCOUNT_MESSAGE)) \
-            in self.strip_all_whitespace(res.get_data(as_text=True))
-        assert res.status_code == 403
+            in self.strip_all_whitespace(response.get_data(as_text=True))
+
+        document = html.fromstring(response.get_data(as_text=True))
+        error_summary_links = document.cssselect('div.govuk-error-summary a')
+
+        assert len(error_summary_links) == 2
+        assert error_summary_links[0].attrib['href'] == '#input-email_address'
+        assert error_summary_links[1].attrib['href'] == '#input-password'
+
+        assert response.status_code == 403
 
     def test_should_be_validation_error_if_no_email_or_password(self):
         res = self.client.post("/user/login", data={})
