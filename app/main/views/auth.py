@@ -73,6 +73,7 @@ def process_login():
                 "auth/login.html",
                 form=form,
                 errors=errors,
+                error_summary_description_text=NO_ACCOUNT_MESSAGE,
                 next=next_url), 403
 
         user = User.from_json(user_json)

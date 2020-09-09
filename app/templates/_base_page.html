@@ -68,6 +68,7 @@
     {% if errors %}
       {{ govukErrorSummary({
       "titleText": "There is a problem",
+      "descriptionText": error_summary_description_text,
       "errorList": errors.values(),
     }) }}
     {% endif %}
