@@ -4,42 +4,79 @@
 #
 #    pip-compile requirements-dev.in
 #
-argh==0.26.2              # via watchdog
-attrs==19.3.0             # via pytest
-certifi==2019.11.28       # via -c requirements.txt, requests
-chardet==3.0.4            # via -c requirements.txt, requests
-click==7.0                # via -c requirements.txt, pip-tools
-coverage==5.0.2           # via -r requirements-dev.in, coveralls, pytest-cov
-coveralls==1.10.0         # via -r requirements-dev.in
-cssselect==1.1.0          # via -r requirements-dev.in
-digitalmarketplace-test-utils==2.8.2  # via -r requirements-dev.in
-docopt==0.6.2             # via -c requirements.txt, coveralls
-entrypoints==0.3          # via flake8
-flake8==3.7.9             # via -r requirements-dev.in
-freezegun==0.3.12         # via -r requirements-dev.in
-idna==2.8                 # via -c requirements.txt, requests
-lxml==4.6.2               # via -r requirements-dev.in
-mccabe==0.6.1             # via flake8
-mock==3.0.5               # via -r requirements-dev.in
-more-itertools==8.0.2     # via pytest
-packaging==20.0           # via pytest
-pathtools==0.1.2          # via watchdog
-pip-tools==5.5.0          # via -r requirements-dev.in
-pluggy==0.13.1            # via pytest
-py==1.8.1                 # via pytest
-pycodestyle==2.5.0        # via flake8
-pyflakes==2.1.1           # via flake8
-pyparsing==2.4.6          # via packaging
-pytest-cov==2.8.1         # via -r requirements-dev.in
-pytest==5.3.2             # via -r requirements-dev.in, pytest-cov
-python-dateutil==2.8.1    # via -c requirements.txt, freezegun
-python-dotenv==0.10.3     # via -r requirements-dev.in
-pyyaml==5.3.1             # via -c requirements.txt, watchdog
-requests==2.22.0          # via -c requirements.txt, coveralls
-six==1.13.0               # via -c requirements.txt, freezegun, mock, packaging, python-dateutil
-urllib3==1.25.10          # via -c requirements.txt, requests
-watchdog==0.9.0           # via -r requirements-dev.in
-wcwidth==0.1.8            # via pytest
+argh==0.26.2
+    # via watchdog
+attrs==19.3.0
+    # via pytest
+click==7.0
+    # via
+    #   -c requirements.txt
+    #   pip-tools
+cssselect==1.1.0
+    # via -r requirements-dev.in
+digitalmarketplace-test-utils==2.8.2
+    # via -r requirements-dev.in
+entrypoints==0.3
+    # via flake8
+flake8==3.7.9
+    # via -r requirements-dev.in
+freezegun==0.3.12
+    # via -r requirements-dev.in
+importlib-metadata==3.4.0
+    # via
+    #   pluggy
+    #   pytest
+lxml==4.6.2
+    # via -r requirements-dev.in
+mccabe==0.6.1
+    # via flake8
+mock==3.0.5
+    # via -r requirements-dev.in
+more-itertools==8.0.2
+    # via pytest
+packaging==20.0
+    # via pytest
+pathtools==0.1.2
+    # via watchdog
+pip-tools==5.5.0
+    # via -r requirements-dev.in
+pluggy==0.13.1
+    # via pytest
+py==1.8.1
+    # via pytest
+pycodestyle==2.5.0
+    # via flake8
+pyflakes==2.1.1
+    # via flake8
+pyparsing==2.4.6
+    # via packaging
+pytest==5.3.2
+    # via -r requirements-dev.in
+python-dateutil==2.8.1
+    # via
+    #   -c requirements.txt
+    #   freezegun
+python-dotenv==0.10.3
+    # via -r requirements-dev.in
+pyyaml==5.3.1
+    # via
+    #   -c requirements.txt
+    #   watchdog
+six==1.13.0
+    # via
+    #   -c requirements.txt
+    #   freezegun
+    #   mock
+    #   packaging
+    #   python-dateutil
+typing-extensions==3.7.4.3
+    # via importlib-metadata
+watchdog==0.9.0
+    # via -r requirements-dev.in
+wcwidth==0.1.8
+    # via pytest
+zipp==3.4.0
+    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip

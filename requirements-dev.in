@@ -2,15 +2,12 @@
 
 pip-tools>5.0.0
 
-coverage
-coveralls
 cssselect
 flake8
 freezegun
 lxml
 mock
 pytest
-pytest-cov
 python-dotenv
 watchdog
 
